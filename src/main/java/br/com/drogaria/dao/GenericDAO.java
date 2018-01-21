@@ -3,6 +3,8 @@ package br.com.drogaria.dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -51,6 +53,63 @@ public class GenericDAO<Entidade> {
 		} catch (Exception e) {
 			throw e;
 		}finally {
+			sessao.close();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Entidade buscar(Long codigo){
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		
+		try {
+			
+			Criteria consulta = sessao.createCriteria(classe);
+			consulta.add(Restrictions.idEq(codigo));
+			
+			Entidade resultado = (Entidade) consulta.uniqueResult();
+			
+			return resultado;
+			
+		} catch (Exception e) {
+			throw e;
+		}finally {
+			sessao.close();
+		}
+	}
+	
+	public void excluir(Entidade entidade) {
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		Transaction transacao = null;
+
+		try {
+			transacao = sessao.beginTransaction();
+			sessao.delete(entidade);
+			transacao.commit();
+		} catch (RuntimeException e) {
+			if (transacao != null) {
+				transacao.rollback();
+			}
+			throw e;
+		} finally {
+			sessao.close();
+		}
+	}
+	
+	
+	public void atualizar(Entidade entidade) {
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		Transaction transacao = null;
+
+		try {
+			transacao = sessao.beginTransaction();
+			sessao.update(entidade);
+			transacao.commit();
+		} catch (RuntimeException e) {
+			if (transacao != null) {
+				transacao.rollback();
+			}
+			throw e;
+		} finally {
 			sessao.close();
 		}
 	}
