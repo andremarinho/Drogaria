@@ -48,4 +48,14 @@ public class CidadeDAOTest {
 		Cidade cidade = cidadeDAO.buscar(2L);
 		System.out.println(cidade.getNome());
 	}
+	
+	@Test
+	@Ignore
+	public void excluir(){
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		Cidade cidade = cidadeDAO.buscar(7L);
+		cidadeDAO.excluir(cidade);
+	}
+	
+	
 }
