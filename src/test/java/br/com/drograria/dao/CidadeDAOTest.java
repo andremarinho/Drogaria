@@ -57,5 +57,13 @@ public class CidadeDAOTest {
 		cidadeDAO.excluir(cidade);
 	}
 	
+	@Test
+	public void editar(){
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		Cidade cidade = cidadeDAO.buscar(2L);
+		cidade.setNome("Arapiraca");
+		cidadeDAO.atualizar(cidade);
+	}
+	
 	
 }
