@@ -24,6 +24,7 @@ public class GenericDAO<Entidade> {
 	public void salvar(Entidade entidade) {
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 		Transaction transacao = null;
+		
 
 		try {
 			transacao = sessao.beginTransaction();
@@ -37,46 +38,47 @@ public class GenericDAO<Entidade> {
 		} finally {
 			sessao.close();
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Entidade> listar(){
-		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Entidade> listar() {
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+
 		try {
-			
+
 			Criteria consulta = sessao.createCriteria(classe);
 			List<Entidade> resultado = consulta.list();
 			System.out.println("Listando...");
 			return resultado;
-			
+
 		} catch (Exception e) {
 			throw e;
-		}finally {
+		} finally {
 			sessao.close();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Entidade buscar(Long codigo){
+	public Entidade buscar(Long codigo) {
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
-		
+
 		try {
-			
+
 			Criteria consulta = sessao.createCriteria(classe);
 			consulta.add(Restrictions.idEq(codigo));
-			
+
 			Entidade resultado = (Entidade) consulta.uniqueResult();
-			
+
 			return resultado;
-			
+
 		} catch (Exception e) {
 			throw e;
-		}finally {
+		} finally {
 			sessao.close();
 		}
 	}
-	
+
 	public void excluir(Entidade entidade) {
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 		Transaction transacao = null;
@@ -94,8 +96,7 @@ public class GenericDAO<Entidade> {
 			sessao.close();
 		}
 	}
-	
-	
+
 	public void atualizar(Entidade entidade) {
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 		Transaction transacao = null;
