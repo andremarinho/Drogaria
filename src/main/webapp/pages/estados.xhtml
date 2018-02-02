@@ -8,6 +8,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Estados</title>
 </h:head>
+
+
 <h:body>
 
 	<p:growl id="msg" />
@@ -15,17 +17,22 @@
 		<p:panel header="Estados - Listagem">
 
 			<p:dataTable emptyMessage="Nenhum registro encontrado"
-				paginator="true">
+				paginator="true" value="#{estadoBean.estados}" var="estado" >
 
 				<f:facet name="header">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+					<p:commandButton value="Novo" actionListener="#{estadoBean.novo}"
+						oncomplete="PF('dialogo').show();" update=":formCadastro:painel" />
 				</f:facet>
 
 
-				<p:column headerText="Nome:">
+				<p:column headerText="Nome:" sortBy="#{estado.nome}">
+
+					<p:outputLabel value="#{estado.nome}" />
 				</p:column>
 
 				<p:column headerText="Sigla:">
+
+					<p:outputLabel value="#{estado.sigla}" />
 				</p:column>
 
 				<p:column headerText="Opções:">
@@ -40,15 +47,15 @@
 	<p:dialog header="Estados - Cadastro" widgetVar="dialogo" modal="true"
 		resizable="false" draggable="false" closable="false">
 
-		<h:form>
-			<h:panelGrid columns="2">
+		<h:form id="formCadastro">
+			<h:panelGrid columns="2" id="painel">
 
 				<p:outputLabel value="Nome:" />
 				<p:inputText value="#{estadoBean.estado.nome}" />
 				<p:outputLabel value="Sigla:" />
 				<p:inputText value="#{estadoBean.estado.sigla}" />
 
-				<p:commandButton value="Salvar" update="msg"
+				<p:commandButton value="Salvar" update="msg :formCadastro:painel"
 					actionListener="#{estadoBean.salvar}" />
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
