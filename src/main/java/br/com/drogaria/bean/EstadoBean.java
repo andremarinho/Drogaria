@@ -43,7 +43,7 @@ public class EstadoBean implements Serializable {
 
 		try {
 			EstadoDAO estadoDAO = new EstadoDAO();
-			estadoDAO.salvar(estado);
+			estadoDAO.merge(estado);
 
 			Messages.addGlobalInfo("Estado salvo com sucesso!!!");
 			novo();
@@ -85,6 +85,12 @@ public class EstadoBean implements Serializable {
 			Messages.addGlobalError("Não é possivel deletar o estado, erro:  "+e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public void editar(ActionEvent actionEvent){
+		this.estado = (Estado) actionEvent.getComponent().getAttributes().get("estadoSelecionado");
+		
+		
 	}
 
 }

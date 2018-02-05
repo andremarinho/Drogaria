@@ -16,8 +16,9 @@
 	<h:form id="fr_estados">
 		<p:panel header="Estados - Listagem">
 
-			<p:dataTable emptyMessage="Nenhum registro encontrado" id="dt_estados"
-				paginator="true" value="#{estadoBean.estados}" var="estado">
+			<p:dataTable emptyMessage="Nenhum registro encontrado"
+				id="dt_estados" paginator="true" value="#{estadoBean.estados}"
+				var="estado">
 
 				<f:facet name="header">
 					<p:commandButton value="Novo" actionListener="#{estadoBean.novo}"
@@ -38,12 +39,22 @@
 				</p:column>
 
 				<p:column headerText="Opções:">
-					<p:commandButton icon="ui-icon-trash" update="msg :fr_estados:dt_estados" actionListener="#{estadoBean.excluir}">
+					<p:commandButton icon="ui-icon-trash"
+						update="msg :fr_estados:dt_estados"
+						actionListener="#{estadoBean.excluir}">
 						<p:confirm header="Confirmação" message="Deseja excluir o estado?"
 							icon="ui-icon-alert" />
-							<f:attribute name="estadoSelecionado" value="#{estado}"></f:attribute>
+						<f:attribute name="estadoSelecionado" value="#{estado}"></f:attribute>
 					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-pencil" update="formCadastro"
+						actionListener="#{estadoBean.editar}" oncomplete="PF('dialogo').show();">
+
+						<f:attribute name="estadoSelecionado" value="#{estado}"></f:attribute>
+					</p:commandButton>
+
 				</p:column>
+
 
 
 			</p:dataTable>
@@ -71,8 +82,9 @@
 				<p:outputLabel value="Sigla:" />
 				<p:inputText value="#{estadoBean.estado.sigla}" />
 
-				<p:commandButton value="Salvar" update="msg :formCadastro:painel :fr_estados:dt_estados"
-					actionListener="#{estadoBean.salvar}"  />
+				<p:commandButton value="Salvar"
+					update="msg :formCadastro:painel :fr_estados:dt_estados"
+					actionListener="#{estadoBean.salvar}" />
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
 		</h:form>
