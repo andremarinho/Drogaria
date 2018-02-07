@@ -16,6 +16,8 @@ import br.com.drogaria.domain.Cidade;
 @ManagedBean
 @ViewScoped
 public class CidadeBean implements Serializable{
+	
+	private Cidade cidade;
 
 	private List<Cidade> cidades;
 	
@@ -23,6 +25,20 @@ public class CidadeBean implements Serializable{
 	public void init(){
 		this.listar();
 	}
+
+	
+	
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+
 
 	public List<Cidade> getCidades() {
 		return cidades;
@@ -42,6 +58,10 @@ public class CidadeBean implements Serializable{
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar listar as cidades");
 			erro.printStackTrace();
 		}
+	}
+	
+	public void novo(){
+		this.cidade = new Cidade();
 	}
 	
 }
