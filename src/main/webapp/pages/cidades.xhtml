@@ -11,11 +11,13 @@
 	<p:growl id="msg" />
 	<h:form>
 		<p:dataTable value="#{cidadeBean.cidades}" var="cidade">
-		
-		<f:facet name="header">
-		
-			<p:commandButton value="Novo" update=":formCadastro:painel" oncomplete="PF('dialogo').show();" actionListener="#{cidadeBean.novo}"/>
-		</f:facet>
+
+			<f:facet name="header">
+
+				<p:commandButton value="Novo" update=":formCadastro:painel :msg"
+					oncomplete="PF('dialogo').show();"
+					actionListener="#{cidadeBean.novo}" />
+			</f:facet>
 
 			<p:column headerText="Estado" filterBy="#{cidade.estado.nome}"
 				sortBy="#{cidade.estado.nome}">
@@ -38,16 +40,19 @@
 			<h:panelGrid columns="2" id="painel">
 
 				<p:outputLabel value="Nome:" />
-				<p:inputText maxlength="50" size="30" value="#{cidadeBean.cidade.nome}" />
+				<p:inputText maxlength="50" size="30"
+					value="#{cidadeBean.cidade.nome}" />
 
 				<p:outputLabel value="Estado:" />
-				<p:selectOneMenu value="#{cidadeBean.cidade.estado}">
-					<f:selectItem itemLabel="Selecione um estado" />
 
+				<p:selectOneMenu value="#{cidadeBean.cidade.estado}" filter="true">
+					<f:selectItem itemLabel="Selecione um estado" />
+					<f:selectItems value="#{cidadeBean.estados}" var="estado"
+						itemLabel="#{estado.nome}-#{estado.sigla}" itemValue="#{estado.codigo}"  />
 				</p:selectOneMenu>
 
 				<p:panelGrid columns="2">
-					<p:commandButton value="Salvar"  />
+					<p:commandButton value="Salvar" actionListener="#{cidadeBean.salvar}" update=":msg" />
 					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 
 				</p:panelGrid>
