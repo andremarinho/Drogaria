@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
@@ -81,6 +82,15 @@ public class CidadeBean implements Serializable {
 		
 		try {
 			
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			cidadeDAO.merge(cidade);
+			this.cidade = new Cidade();
+			
+			EstadoDAO estadoDAO = new EstadoDAO();
+			this.estados = estadoDAO.listar();
+			
+			this.cidades = cidadeDAO.listar();
+			
 			Messages.addGlobalInfo("Cidade Salva com sucesso!");
 		} catch (RuntimeException erro) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar salvar uma cidade");
@@ -88,6 +98,43 @@ public class CidadeBean implements Serializable {
 		}
 		
 		
+	}
+	
+	public void excluir(ActionEvent actionEvent) {
+		this.cidade = (Cidade) actionEvent.getComponent().getAttributes().get("cidadeSelecionada");
+				
+		try {
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			cidadeDAO.excluir(cidade);
+			this.listar();
+			Messages.addGlobalInfo("Cidade removido com sucesso");
+		} catch (Exception e) {
+			Messages.addGlobalError("Não é possivel deletar o cidade, erro:  "+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public void editar(ActionEvent actionEvent){
+		
+		
+		try {
+			this.cidade = (Cidade) actionEvent.getComponent().getAttributes().get("cidadeSelecionada");
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			cidadeDAO.atualizar(cidade);
+			
+			EstadoDAO estadoDAO = new EstadoDAO();
+			this.estados = estadoDAO.listar();
+		} catch (RuntimeException erro) {
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar selecionar uma cidade");
+			erro.printStackTrace();
+		}
+
+	}
+
+	
+	
+	public void teste(){
+		System.out.println("Alterou o valor");
 	}
 
 }

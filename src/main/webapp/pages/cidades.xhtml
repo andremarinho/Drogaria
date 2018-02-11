@@ -9,14 +9,18 @@
 </h:head>
 <h:body>
 	<p:growl id="msg" />
-	<h:form>
-		<p:dataTable value="#{cidadeBean.cidades}" var="cidade">
+	<h:form id="fr_listagem">
+		<p:dataTable value="#{cidadeBean.cidades}" var="cidade" id="tabela">
 
 			<f:facet name="header">
 
 				<p:commandButton value="Novo" update=":formCadastro:painel :msg"
 					oncomplete="PF('dialogo').show();"
-					actionListener="#{cidadeBean.novo}" />
+					actionListener="#{cidadeBean.novo}">
+
+					<f:actionListener
+						type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+				</p:commandButton>
 			</f:facet>
 
 			<p:column headerText="Estado" filterBy="#{cidade.estado.nome}"
@@ -30,7 +34,34 @@
 
 			</p:column>
 
+			<p:column headerText="Exluir">
+				<p:commandButton icon="ui-icon-trash"
+					update="msg :fr_listagem:tabela"
+					actionListener="#{cidadeBean.excluir}">
+					<p:confirm header="Confirmação" message="Deseja excluir a cidade?"
+						icon="ui-icon-alert" />
+					<f:attribute name="cidadeSelecionada" value="#{cidade}"></f:attribute>
+				</p:commandButton>
+
+				<p:commandButton icon="ui-icon-pencil"
+					update=":fr_listagem:tabela formCadastro :msg"
+					actionListener="#{cidadeBean.editar}"
+					oncomplete="PF('dialogo').show();">
+					<f:actionListener
+						type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					<f:attribute name="cidadeSelecionada" value="#{cidade}"></f:attribute>
+				</p:commandButton>
+
+			</p:column>
+
 		</p:dataTable>
+
+		<p:confirmDialog global="true">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
 	</h:form>
 
 	<p:dialog widgetVar="dialogo" header="Cidades" draggable="false"
@@ -39,23 +70,31 @@
 
 			<h:panelGrid columns="2" id="painel">
 
-				<p:outputLabel value="Nome:" />
-				<p:inputText maxlength="50" size="30"
-					value="#{cidadeBean.cidade.nome}" />
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" maxlength="50" size="30"
+					value="#{cidadeBean.cidade.nome}" required="true"
+					requiredMessage="Preencha o nome da cidade" />
 
-				<p:outputLabel value="Estado:" />
+				<p:outputLabel for="estado" value="Estado:" />
 
-				<p:selectOneMenu value="#{cidadeBean.cidade.estado}" filter="true">
+				<p:selectOneMenu id="estado" value="#{cidadeBean.cidade.estado}"
+					filter="true" converter="omnifaces.SelectItemsConverter"
+					required="true" requiredMessage="Selecione um estado">
 					<f:selectItem itemLabel="Selecione um estado" />
 					<f:selectItems value="#{cidadeBean.estados}" var="estado"
-						itemLabel="#{estado.nome}-#{estado.sigla}" itemValue="#{estado.codigo}"  />
+						itemLabel="#{estado.nome}-#{estado.sigla}" itemValue="#{estado}" />
+					<p:ajax event="change" listener="#{cidadeBean.teste}"></p:ajax>
 				</p:selectOneMenu>
 
-				<p:panelGrid columns="2">
-					<p:commandButton value="Salvar" actionListener="#{cidadeBean.salvar}" update=":msg" />
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{cidadeBean.salvar}"
+						update=":msg :formCadastro:painel :fr_listagem:tabela " />
 					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 
-				</p:panelGrid>
+				</h:panelGrid>
+
+
 
 
 			</h:panelGrid>
