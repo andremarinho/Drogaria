@@ -39,7 +39,14 @@
 				</p:column>
 
 				<p:column headerText="Opções:">
-					<p:button value="Exluir" />
+					<p:button  icon="ui-icon-trash" />
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{produtoBean.editar}"
+						oncomplete="PF('dialogo').show();" update="fr_produto">
+						<f:attribute name="produtoSelecionado" value="#{produto}"></f:attribute>
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 				</p:column>
 
 
@@ -61,14 +68,22 @@
 				<p:outputLabel value="Quantidade:" for="quantidade" />
 				<p:inputText id="quantidade" maxlength="5" size="10"
 					value="#{produtoBean.produto.quantidade}" required="true"
-					requiredMessage="O campo quantidade é obrigatorio" 
-					converterMessage="O campo quantidade aceita apenas numeros"/>
+					requiredMessage="O campo quantidade é obrigatorio"
+					converterMessage="O campo quantidade aceita apenas numeros">
+					<f:validateLongRange minimum="0" maximum="1000" />
+
+				</p:inputText>
 
 				<p:outputLabel value="Preço:" for="preco" />
 				<p:inputText id="preco" maxlength="7" size="10"
 					value="#{produtoBean.produto.preco}" required="true"
-					requiredMessage="O campo preço é obrigatorio" 
-					converterMessage="O campo preço aceta apenas numeros"/>
+					requiredMessage="O campo preço é obrigatorio"
+					converterMessage="O campo preço aceta apenas numeros"
+					validatorMessage="Informe um valor entre 00,1 e 9999,99 para o preço.">
+					<f:validateDoubleRange minimum="0.01" maximum="9999.99" />
+
+
+				</p:inputText>
 
 				<p:outputLabel value="Fabricante" for="fabricantes" />
 				<p:selectOneMenu filter="true" id="fabricantes" required="true"
