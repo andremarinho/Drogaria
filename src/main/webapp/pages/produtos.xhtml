@@ -31,7 +31,10 @@
 				</p:column>
 
 				<p:column headerText="Preço:">
-					<p:outputLabel value="#{produto.preco}" />
+					<p:outputLabel value="#{produto.preco}" >
+					
+						<f:convertNumber locale="pt-br" minFractionDigits="2"></f:convertNumber>
+					</p:outputLabel>
 				</p:column>
 
 				<p:column headerText="Fabricante:">
@@ -81,6 +84,7 @@
 					converterMessage="O campo preço aceta apenas numeros"
 					validatorMessage="Informe um valor entre 00,1 e 9999,99 para o preço.">
 					<f:validateDoubleRange minimum="0.01" maximum="9999.99" />
+					<f:convertNumber locale="pt-br" minFractionDigits="2"></f:convertNumber>
 
 
 				</p:inputText>
