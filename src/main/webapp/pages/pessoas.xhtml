@@ -82,13 +82,22 @@
 				<p:inputText id="cpf" />
 
 				<p:outputLabel value="Estado:" />
-				<p:selectOneMenu>
+				<p:selectOneMenu filter="true"
+					converter="omnifaces.SelectItemsConverter" required="true"
+					requiredMessage="O campo estado é obrigatorio.">
+					<f:selectItem itemLabel="Selecione um estado"/>
+
+					<f:selectItems value="#{pessoaBean.estados}" var="estado"
+						itemLabel="#{estado.nome}" itemValue="#{estado}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Cidade:" />
-				<p:selectOneMenu>
-				
-					<f:selectItems value="#{pessoaBean.caidades}" var="cidade" itemLabel="#{cidade.nome}"/>
+				<p:selectOneMenu filter="true"
+					converter="omnifaces.SelectItemsConverter" required="true"
+					requiredMessage="O campo cidade é obrigatorio.">
+					<f:selectItem itemLabel="Selecione uma cidade"/>
+					<f:selectItems value="#{pessoaBean.cidades}" var="cidade"
+						itemLabel="#{cidade.nome}" itemValue="#{cidade}"/>
 				</p:selectOneMenu>
 
 				<p:outputLabel for="rua" value="Rua:" />
