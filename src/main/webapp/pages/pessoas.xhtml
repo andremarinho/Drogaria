@@ -79,13 +79,15 @@
 				<p:inputText id="rg" />
 
 				<p:outputLabel for="cpf" value="CPF:" />
-				<p:inputText id="cpf" />
+				<p:inputMask mask="999.999.999-99" size="13" id="cpf"
+					value="#{pessoaBean.pessoa.cpf}" required="true"
+					requiredMessage="O campo CPF é obrigatorio." />
 
 				<p:outputLabel value="Estado:" />
 				<p:selectOneMenu filter="true"
 					converter="omnifaces.SelectItemsConverter" required="true"
 					requiredMessage="O campo estado é obrigatorio.">
-					<f:selectItem itemLabel="Selecione um estado"/>
+					<f:selectItem itemLabel="Selecione um estado" />
 
 					<f:selectItems value="#{pessoaBean.estados}" var="estado"
 						itemLabel="#{estado.nome}" itemValue="#{estado}" />
@@ -95,9 +97,9 @@
 				<p:selectOneMenu filter="true"
 					converter="omnifaces.SelectItemsConverter" required="true"
 					requiredMessage="O campo cidade é obrigatorio.">
-					<f:selectItem itemLabel="Selecione uma cidade"/>
+					<f:selectItem itemLabel="Selecione uma cidade" />
 					<f:selectItems value="#{pessoaBean.cidades}" var="cidade"
-						itemLabel="#{cidade.nome}" itemValue="#{cidade}"/>
+						itemLabel="#{cidade.nome}" itemValue="#{cidade}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel for="rua" value="Rua:" />
@@ -127,10 +129,10 @@
 					value="#{pessoaBean.pessoa.complemento}" />
 
 				<p:outputLabel for="telefone" value="Telefone:" />
-				<p:inputText id="telefone" />
+				<p:inputMask  mask="(99)9999-9999" id="telefone" />
 
 				<p:outputLabel for="celular" value="Celular:" />
-				<p:inputText id="celular" />
+				<p:inputMask mask="(99)99999-9999" id="celular" />
 
 				<p:outputLabel for="email" value="Email:" />
 				<p:inputText id="email" maxlength="100" size="50"

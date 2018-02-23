@@ -3,6 +3,7 @@ package br.com.drogaria.dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import java.lang.reflect.ParameterizedType;
@@ -134,5 +135,25 @@ public class GenericDAO<Entidade> {
 			sessao.close();
 		}
 		
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Entidade> listar(String campoOrdenacao) {
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+
+		try {
+
+			Criteria consulta = sessao.createCriteria(classe);
+			consulta.addOrder(Order.asc(campoOrdenacao));
+			List<Entidade> resultado = consulta.list();
+			System.out.println("Listando...");
+			return resultado;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			sessao.close();
+		}
 	}
 }
