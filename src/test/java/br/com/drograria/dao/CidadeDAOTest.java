@@ -58,6 +58,7 @@ public class CidadeDAOTest {
 	}
 	
 	@Test
+	@Ignore
 	public void editar(){
 		CidadeDAO cidadeDAO = new CidadeDAO();
 		Cidade cidade = cidadeDAO.buscar(2L);
@@ -65,5 +66,15 @@ public class CidadeDAOTest {
 		cidadeDAO.atualizar(cidade);
 	}
 	
+	@Test
+	@Ignore
+	public void listarPorEstado(){
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		List<Cidade> cidades = cidadeDAO.buscarPorEstado(4L);
+		
+		for(Cidade cidade:cidades){
+			System.out.println(cidade.getNome());
+		}
+	}
 	
 }
