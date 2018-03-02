@@ -1,6 +1,7 @@
 package br.com.drogaria.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
+import br.com.drogaria.dao.CidadeDAO;
 import br.com.drogaria.dao.EstadoDAO;
 import br.com.drogaria.dao.PessoaDAO;
 import br.com.drogaria.domain.Cidade;
@@ -24,7 +26,17 @@ public class PessoaBean implements Serializable {
 	private List<Pessoa> pessoas;
 
 	private List<Estado> estados;
+	private Estado estado;
+
 	private List<Cidade> cidades;
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 
 	public Pessoa getPessoa() {
 
@@ -79,6 +91,8 @@ public class PessoaBean implements Serializable {
 			EstadoDAO estadoDAO = new EstadoDAO();
 			this.estados = estadoDAO.listar();
 
+			this.cidades = new ArrayList<Cidade>();
+
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar uma nova pessoa");
 			erro.printStackTrace();
@@ -95,6 +109,23 @@ public class PessoaBean implements Serializable {
 	}
 
 	public void excluir(ActionEvent evento) {
+
+	}
+
+	public void popular() {
+		
+		try {
+		
+			if (this.estado != null) {
+				CidadeDAO cidadeDAO = new CidadeDAO();
+				this.cidades = cidadeDAO.buscarPorEstado(this.estado.getCodigo());
+				System.out.println(this.cidades.size());
+			}
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar gerar uma nova pessoa");
+			erro.printStackTrace();
+		}
+		
 
 	}
 }

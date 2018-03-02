@@ -85,19 +85,22 @@
 
 				<p:outputLabel value="Estado:" />
 				<p:selectOneMenu filter="true"
-					converter="omnifaces.SelectItemsConverter" required="true"
-					requiredMessage="O campo estado é obrigatorio.">
+					converter="omnifaces.SelectItemsConverter"
+					value="#{pessoaBean.estado}">
 					<f:selectItem itemLabel="Selecione um estado" />
 
 					<f:selectItems value="#{pessoaBean.estados}" var="estado"
 						itemLabel="#{estado.nome}" itemValue="#{estado}" />
+					<p:ajax listener="#{pessoaBean.popular}" update=":formCadastro:cidade"></p:ajax>
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Cidade:" />
 				<p:selectOneMenu filter="true"
 					converter="omnifaces.SelectItemsConverter" required="true"
-					requiredMessage="O campo cidade é obrigatorio.">
-					<f:selectItem itemLabel="Selecione uma cidade" />
+					requiredMessage="O campo cidade é obrigatorio."
+					value="#{pessoaBean.pessoa.cidade}" id="cidade">
+					<f:selectItem itemLabel="Selecione uma cidade"
+						noSelectionOption="true" />
 					<f:selectItems value="#{pessoaBean.cidades}" var="cidade"
 						itemLabel="#{cidade.nome}" itemValue="#{cidade}" />
 				</p:selectOneMenu>
@@ -129,7 +132,7 @@
 					value="#{pessoaBean.pessoa.complemento}" />
 
 				<p:outputLabel for="telefone" value="Telefone:" />
-				<p:inputMask  mask="(99)9999-9999" id="telefone" />
+				<p:inputMask mask="(99)9999-9999" id="telefone" />
 
 				<p:outputLabel for="celular" value="Celular:" />
 				<p:inputMask mask="(99)99999-9999" id="celular" />
