@@ -87,6 +87,7 @@ public class PessoaBean implements Serializable {
 		try {
 
 			this.pessoa = new Pessoa();
+			this.estado = new Estado();
 
 			EstadoDAO estadoDAO = new EstadoDAO();
 			this.estados = estadoDAO.listar();
@@ -105,6 +106,20 @@ public class PessoaBean implements Serializable {
 	}
 
 	public void salvar() {
+		
+		try {
+			
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			pessoaDAO.merge(pessoa);
+			
+			this.pessoas = pessoaDAO.listar("nome");
+			
+			this.novo();
+			
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar gravar  pessoa");
+			erro.printStackTrace();
+		}
 
 	}
 
@@ -120,6 +135,8 @@ public class PessoaBean implements Serializable {
 				CidadeDAO cidadeDAO = new CidadeDAO();
 				this.cidades = cidadeDAO.buscarPorEstado(this.estado.getCodigo());
 				System.out.println(this.cidades.size());
+			}else{
+				this.cidades = new ArrayList<>();
 			}
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar uma nova pessoa");

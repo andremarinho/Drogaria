@@ -70,13 +70,13 @@
 		draggable="false" resizable="false" modal="true" closable="false">
 		<h:form id="formCadastro">
 			<h:panelGrid id="painel" columns="2">
-				<p:outputLabel for="descricao" value="Descrição:" />
+				<p:outputLabel for="descricao" value="Nome:" />
 				<p:inputText id="descricao" maxlength="50" size="30"
 					value="#{pessoaBean.pessoa.nome}" required="true"
 					requiredMessage="O campo 'Nome' é obrigatório" />
 
 				<p:outputLabel for="rg" value="RG:" />
-				<p:inputText id="rg" />
+				<p:inputText id="rg" value="#{pessoaBean.pessoa.rg}" />
 
 				<p:outputLabel for="cpf" value="CPF:" />
 				<p:inputMask mask="999.999.999-99" size="13" id="cpf"
@@ -125,17 +125,17 @@
 					requiredMessage="O campo 'Bairro' é obrigatório" />
 
 				<p:outputLabel for="cep" value="CEP:" />
-				<p:inputText id="cep" />
+				<p:inputText  value="#{pessoaBean.pessoa.cep}" id="cep" />
 
 				<p:outputLabel for="complemento" value="Complemento:" />
 				<p:inputText id="complemento" maxlength="10" size="10"
 					value="#{pessoaBean.pessoa.complemento}" />
 
 				<p:outputLabel for="telefone" value="Telefone:" />
-				<p:inputMask mask="(99)9999-9999" id="telefone" />
+				<p:inputMask mask="(99)9999-9999" value="#{pessoaBean.pessoa.telefone}" id="telefone" />
 
 				<p:outputLabel for="celular" value="Celular:" />
-				<p:inputMask mask="(99)99999-9999" id="celular" />
+				<p:inputMask mask="(99)99999-9999" value="#{pessoaBean.pessoa.celular}" id="celular" />
 
 				<p:outputLabel for="email" value="Email:" />
 				<p:inputText id="email" maxlength="100" size="50"
