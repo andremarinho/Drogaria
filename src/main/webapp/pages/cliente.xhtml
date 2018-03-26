@@ -10,6 +10,8 @@
 </h:head>
 <h:body>
 
+	<p:growl id="mensagem"></p:growl>
+
 	<h:form>
 
 		<p:panel header="Clientes - Listagem">
@@ -18,7 +20,8 @@
 				rows="5">
 
 				<f:facet name="header">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+						actionListener="#{clienteBean.novo}" update=":mensagem :formCadastro:painel" />
 				</f:facet>
 
 				<p:column headerText="Nome: ">
@@ -38,11 +41,12 @@
 				</p:column>
 
 				<p:column headerText="Liberado:">
-					<p:selectBooleanCheckbox value="#{cliente.liberado}" disabled="true"/>
+					<p:selectBooleanCheckbox value="#{cliente.liberado}"
+						disabled="true" />
 				</p:column>
 
 				<p:column headerText="Opções:">
-					
+
 				</p:column>
 
 
@@ -53,26 +57,27 @@
 	<p:dialog widgetVar="dialogo" modal="true" draggable="false"
 		resizable="false" header="Cadastro Cliente" closable="false">
 
-		<h:panelGrid columns="2">
+		<h:form id="formCadastro">
+			<h:panelGrid columns="2" id="painel">
 
-			<p:outputLabel value="Pessoa: " />
-			<p:selectOneMenu>
-				<f:selectItem itemLabel="Selecione uma pessoa" />
-			</p:selectOneMenu>
+				<p:outputLabel value="Pessoa: " />
+				<p:selectOneMenu>
+					<f:selectItem itemLabel="Selecione uma pessoa" />
+				</p:selectOneMenu>
 
-			<p:outputLabel value="Data de Cadastro:" />
-			<p:calendar />
+				<p:outputLabel value="Data de Cadastro:" />
+				<p:calendar />
 
-			<p:outputLabel value="Ativo:" />
-			<p:selectBooleanCheckbox />
+				<p:outputLabel value="Ativo:" />
+				<p:selectBooleanCheckbox />
 
 
 
-			<p:commandButton value="Salvar" />
-			<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				<p:commandButton value="Salvar" />
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 
-		</h:panelGrid>
-
+			</h:panelGrid>
+		</h:form>
 
 	</p:dialog>
 </h:body>
