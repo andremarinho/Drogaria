@@ -21,7 +21,8 @@
 
 				<f:facet name="header">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
-						actionListener="#{clienteBean.novo}" update=":mensagem :formCadastro:painel" />
+						actionListener="#{clienteBean.novo}"
+						update=":mensagem :formCadastro:painel" />
 				</f:facet>
 
 				<p:column headerText="Nome: ">
@@ -60,13 +61,16 @@
 		<h:form id="formCadastro">
 			<h:panelGrid columns="2" id="painel">
 
-				<p:outputLabel value="Pessoa: " />
-				<p:selectOneMenu>
-					<f:selectItem itemLabel="Selecione uma pessoa" />
+				<p:outputLabel value="Pessoa: " for="pessoa" />
+				<p:selectOneMenu id="pessoa" value="#{clienteBean.cliente.pessoa}"
+					required="true" requiredMessage="O campo 'pessoa' é obrigatório."
+					filter="true">
+					<f:selectItem itemLabel="Selecione uma pessoa" noSelectionOption="true" />
+					<f:selectItems value="#{clienteBean.pessoas}" var="pessoa" itemLabel="#{pessoa.nome}" itemValue="#{pessoa}"></f:selectItems>
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Data de Cadastro:" />
-				<p:calendar />
+				<p:calendar value="#{clienteBean.cliente.dataCadastro}" required="true" requiredMessage="A data de cadastro é obrigatório." />
 
 				<p:outputLabel value="Ativo:" />
 				<p:selectBooleanCheckbox />
