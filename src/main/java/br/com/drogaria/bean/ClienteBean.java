@@ -19,14 +19,14 @@ import br.com.drogaria.domain.Pessoa;
 @ManagedBean
 @ViewScoped
 public class ClienteBean implements Serializable {
-	
+
 	private List<Cliente> clientes;
 	private List<Pessoa> pessoas;
-	
+
 	private Cliente cliente;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		this.listar();
 	}
 
@@ -37,9 +37,7 @@ public class ClienteBean implements Serializable {
 	public void setClientes(List<Cliente> clientes) {
 		this.clientes = clientes;
 	}
-	
-	
-	
+
 	public List<Pessoa> getPessoas() {
 		return pessoas;
 	}
@@ -56,7 +54,7 @@ public class ClienteBean implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public void listar(){
+	public void listar() {
 		try {
 
 			ClienteDAO clienteDAO = new ClienteDAO();
@@ -67,19 +65,35 @@ public class ClienteBean implements Serializable {
 			erro.printStackTrace();
 		}
 	}
-	
-	public void novo(){
-		try{
-		this.cliente = new Cliente();
-		
-		PessoaDAO pessoaDAO = new PessoaDAO();
-		pessoas = pessoaDAO.listar("nome");
-		}catch(RuntimeException ex){
+
+	public void novo() {
+		try {
+			this.cliente = new Cliente();
+
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			pessoas = pessoaDAO.listar("nome");
+		} catch (RuntimeException ex) {
 			Messages.addGlobalError("Ocorreu erro ao listar clientes");
 			ex.getMessage();
 		}
-		
+
 	}
 
-	
+	public void salvar() {
+
+		try {
+			ClienteDAO clienteDAO = new ClienteDAO();
+			clienteDAO.merge(cliente);
+			cliente = new Cliente();
+
+			
+			clientes = clienteDAO.listar();
+			Messages.addGlobalInfo("Cliente salvo com sucesso.");
+		} catch (Exception e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar salvar cliente.");
+			e.printStackTrace();
+		}
+
+	}
+
 }
