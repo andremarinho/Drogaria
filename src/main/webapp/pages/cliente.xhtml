@@ -6,6 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputScript library="js" name="script.js"/>
 	<title>Clientes - Listagem</title>
 </h:head>
 <h:body>
@@ -78,7 +79,7 @@
 				<p:outputLabel value="Data de Cadastro:" for="dataCadastro" />
 				<p:calendar value="#{clienteBean.cliente.dataCadastro}"
 					required="true" requiredMessage="A data de cadastro é obrigatório."
-					id="dataCadastro" />
+					id="dataCadastro" locale="pt_BR" />
 
 				<p:outputLabel for="liberado" value="Ativo:" />
 				<p:selectBooleanCheckbox id="liberado"
