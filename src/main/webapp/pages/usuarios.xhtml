@@ -12,12 +12,13 @@
 	<h:form>
 		<p:panel header="Usuários - Listagem">
 			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				paginator="true">
+				paginator="true" value="#{usuarioBean.usuarios}" var="usuario">
 				<f:facet name="header">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+					<p:commandButton update="dialogo" value="Novo" actionListener="#{usuarioBean.novo}" oncomplete="PF('dialogo').show();" />
 				</f:facet>
 
 				<p:column headerText="Nome">
+					<h:outputLabel value="#{usuario.nome}"/>
 				</p:column>
 
 				<p:column headerText="CPF">
@@ -36,12 +37,17 @@
 	</h:form>
 
 	<p:dialog header="Usuários - Cadastro" widgetVar="dialogo"
-		draggable="false" resizable="false" modal="true" closable="false">
+		draggable="false" resizable="false" modal="true" closable="false" id="dialogo">
 		<h:form>
 			<h:panelGrid columns="2">
 				<p:outputLabel value="Pessoa:" />
-				<p:selectOneMenu filter="true">
-					<f:selectItem itemValue="" itemLabel="Selecione uma pessoa" />
+				<p:selectOneMenu id="pessoa" value="#{usuarioBean.usuario.pessoa}"
+					required="true" requiredMessage="O campo 'pessoa' é obrigatório."
+					filter="true" converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione uma pessoa"
+						noSelectionOption="true" />
+					<f:selectItems value="#{usuarioBean.pessoas}" var="pessoa"
+						itemLabel="#{pessoa.nome}-#{pessoa.cpf}" itemValue="#{pessoa}"></f:selectItems>
 				</p:selectOneMenu>
 				
 				<p:outputLabel value="Senha:" />
