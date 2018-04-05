@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<h:outputScript library="js" name="script.js"/>
+	<h:outputScript library="js" name="script.js" />
 	<title>Clientes - Listagem</title>
 </h:head>
 <h:body>
@@ -53,10 +53,29 @@
 
 				<p:column headerText="Opções:">
 
+					<p:commandButton icon="ui-icon-pencil" >
+
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" update="formListagem:tabela" actionListener="#{clienteBean.excluir}">
+						<p:confirm header="Confirmação" message="Deseja excluir o cliente?"
+							icon="ui-icon-alert" />
+							
+							<f:attribute name="clienteSelecionado" value="#{cliente}"></f:attribute>
+
+					</p:commandButton>
+
 				</p:column>
 
 
 			</p:dataTable>
+
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</p:panel>
 	</h:form>
 

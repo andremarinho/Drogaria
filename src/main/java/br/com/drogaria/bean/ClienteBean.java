@@ -1,11 +1,13 @@
 package br.com.drogaria.bean;
 
+
 import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
@@ -94,6 +96,20 @@ public class ClienteBean implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void excluir(ActionEvent evento){
+		Cliente cliente = (Cliente) evento.getComponent().getAttributes().get("clienteSelecionado");
+		try {
+			ClienteDAO clienteDAO = new ClienteDAO();
+			clienteDAO.excluir(cliente);
+			this.clientes = clienteDAO.listar();
+			
+			Messages.addGlobalError("Excluido cliente com sucesso!");
+		} catch (Exception e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar excluir o cliente.");
+			e.printStackTrace();
+		}
 	}
 
 }
