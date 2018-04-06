@@ -111,5 +111,18 @@ public class ClienteBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void selecionarCliente(ActionEvent evento){
+		this.cliente = (Cliente) evento.getComponent().getAttributes().get("clienteSelecionado");
+		
+		
+		
+		try {
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			this.pessoas = pessoaDAO.listar();
+		} catch (Exception e) {
+			Messages.addGlobalFatal("Não foi possivel realizar consulta de pessoas.");
+		}
+	}
 
 }

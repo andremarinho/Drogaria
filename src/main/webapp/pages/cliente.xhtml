@@ -53,15 +53,18 @@
 
 				<p:column headerText="Opções:">
 
-					<p:commandButton icon="ui-icon-pencil" >
-
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{clienteBean.selecionarCliente}"
+						oncomplete="PF('dialogo').show()" update="dialogo" >
+						<f:attribute name="clienteSelecionado" value="#{cliente}"></f:attribute>
 					</p:commandButton>
 
-					<p:commandButton icon="ui-icon-trash" update="formListagem:tabela" actionListener="#{clienteBean.excluir}">
-						<p:confirm header="Confirmação" message="Deseja excluir o cliente?"
-							icon="ui-icon-alert" />
-							
-							<f:attribute name="clienteSelecionado" value="#{cliente}"></f:attribute>
+					<p:commandButton icon="ui-icon-trash" update="formListagem:tabela"
+						actionListener="#{clienteBean.excluir}">
+						<p:confirm header="Confirmação"
+							message="Deseja excluir o cliente?" icon="ui-icon-alert" />
+
+						<f:attribute name="clienteSelecionado" value="#{cliente}"></f:attribute>
 
 					</p:commandButton>
 
@@ -80,7 +83,7 @@
 	</h:form>
 
 	<p:dialog widgetVar="dialogo" modal="true" draggable="false"
-		resizable="false" header="Cadastro Cliente" closable="false">
+		resizable="false" header="Cadastro Cliente" closable="false" id="dialogo" >
 
 		<h:form id="formCadastro">
 			<h:panelGrid columns="2" id="painel">
