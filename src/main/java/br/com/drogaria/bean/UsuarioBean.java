@@ -5,11 +5,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
 import br.com.drogaria.dao.PessoaDAO;
 import br.com.drogaria.dao.UsuarioDAO;
+import br.com.drogaria.domain.Cliente;
 import br.com.drogaria.domain.Pessoa;
 import br.com.drogaria.domain.Usuario;
 
@@ -73,6 +75,30 @@ public class UsuarioBean {
 			ex.getMessage();
 		}
 
+	}
+	
+	public void salvar(){
+		try {
+			
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			usuarioDAO.salvar(usuario);
+			Messages.addGlobalInfo("Usuario salvo com sucesso!");
+		} catch (Exception e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar salvar o usuario");
+			e.printStackTrace();
+		}
+	}
+	
+	public void excluir(ActionEvent evento){
+		Usuario usuario = (Usuario) evento.getComponent().getAttributes().get("usuarioSelecionado");
+		try {
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			usuarioDAO.excluir(usuario);
+			Messages.addGlobalInfo("Usuario excluido com sucesso!");
+		} catch (Exception e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar excluir o usuario");
+			e.printStackTrace();
+		}
 	}
 
 }

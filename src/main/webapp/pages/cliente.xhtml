@@ -57,6 +57,8 @@
 						actionListener="#{clienteBean.selecionarCliente}"
 						oncomplete="PF('dialogo').show()" update="dialogo" >
 						<f:attribute name="clienteSelecionado" value="#{cliente}"></f:attribute>
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"></f:actionListener>
 					</p:commandButton>
 
 					<p:commandButton icon="ui-icon-trash" update="formListagem:tabela"
