@@ -82,6 +82,8 @@ public class UsuarioBean {
 			
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			usuarioDAO.salvar(usuario);
+			this.usuario = new Usuario();
+			listar();
 			Messages.addGlobalInfo("Usuario salvo com sucesso!");
 		} catch (Exception e) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar salvar o usuario");
@@ -94,7 +96,8 @@ public class UsuarioBean {
 		try {
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			usuarioDAO.excluir(usuario);
-			Messages.addGlobalInfo("Usuario excluido com sucesso!");
+			listar();
+			Messages.addGlobalInfo("Usuario "+usuario.getPessoa().getNome()+" excluido com sucesso!");
 		} catch (Exception e) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar excluir o usuario");
 			e.printStackTrace();
