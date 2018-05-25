@@ -3,6 +3,7 @@ package br.com.drogaria.service;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
@@ -35,6 +36,22 @@ public class FabricanteService {
 		Gson gson = new Gson();
 		String json = gson.toJson(fabricante);
 		return json;
+	}
+	
+	
+	@POST
+	public String salvar(String json){
+		
+		Gson gson = new Gson();
+		Fabricante fabricante = gson.fromJson(json, Fabricante.class);
+		FabricanteDAO fabricanteDAO = new FabricanteDAO();
+		fabricanteDAO.merge(fabricante);
+		
+		String jsonSaida = gson.toJson(fabricante);
+		return jsonSaida;
+		
+		
+		
 	}
 
 }
