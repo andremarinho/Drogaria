@@ -31,8 +31,8 @@
 				</p:column>
 
 				<p:column headerText="Preço:">
-					<p:outputLabel value="#{produto.preco}" >
-					
+					<p:outputLabel value="#{produto.preco}">
+
 						<f:convertNumber locale="pt-br" minFractionDigits="2"></f:convertNumber>
 					</p:outputLabel>
 				</p:column>
@@ -42,7 +42,7 @@
 				</p:column>
 
 				<p:column headerText="Opções:">
-					<p:button  icon="ui-icon-trash" />
+					<p:button icon="ui-icon-trash" />
 					<p:commandButton icon="ui-icon-pencil"
 						actionListener="#{produtoBean.editar}"
 						oncomplete="PF('dialogo').show();" update="fr_produto">
@@ -60,7 +60,7 @@
 	<p:dialog widgetVar="dialogo" modal="true" draggable="false"
 		resizable="false" header="Cadastro Produto" closable="false">
 
-		<h:form id="fr_produto">
+		<h:form id="fr_produto" enctype="multipart/form-data">
 			<h:panelGrid columns="2">
 
 				<p:outputLabel value="Descrição: " for="descricao" />
@@ -99,6 +99,11 @@
 						itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}" />
 				</p:selectOneMenu>
 
+				
+					<p:outputLabel value="Foto:" for="foto" />
+					<p:fileUpload id="foto" mode="advanced"
+						fileUploadListener="#{produtoBean.upload}" />
+				
 				<p:commandButton value="Salvar"
 					actionListener="#{produtoBean.salvar}"
 					update=":fr_produto :msg :fr_produtos:dt_produtos" />

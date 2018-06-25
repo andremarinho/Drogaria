@@ -13,16 +13,20 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
-	
-	
-	<!-- Tema do PrimeFaces
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>start</param-value>
-	</context-param> -->
-	
 
-	<!-- Configuração do JSF  -->
+
+	<!-- Tema do PrimeFaces <context-param> <param-name>primefaces.THEME</param-name> 
+		<param-value>start</param-value> </context-param> -->
+
+	<!-- Definição do mecanismo de Upload -->
+
+	<context-param>
+		<param-name>primefaces.UPLOADER</param-name>
+		<param-value>native</param-value>
+	</context-param>
+
+
+	<!-- Configuração do JSF -->
 	<servlet>
 		<display-name>FacesServlet</display-name>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -33,9 +37,9 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-	
+
 	<listener>
 		<listener-class>br.com.drogaria.util.HibernateContexto</listener-class>
-	
+
 	</listener>
 </web-app>

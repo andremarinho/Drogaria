@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
+import org.primefaces.event.FileUploadEvent;
 
 import br.com.drogaria.dao.EstadoDAO;
 import br.com.drogaria.dao.FabricanteDAO;
@@ -93,6 +94,10 @@ public class ProdutoBean {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar selecionar um produto");
 			erro.printStackTrace();
 		}
+	}
+	
+	public void upload(FileUploadEvent evento){
+		System.out.println("chamou o metodo");
 	}
 
 }
