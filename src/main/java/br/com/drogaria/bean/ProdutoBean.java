@@ -1,13 +1,19 @@
 package br.com.drogaria.bean;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
+import javax.sound.midi.Patch;
 
 import org.omnifaces.util.Messages;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.drogaria.dao.EstadoDAO;
 import br.com.drogaria.dao.FabricanteDAO;
@@ -97,7 +103,17 @@ public class ProdutoBean {
 	}
 	
 	public void upload(FileUploadEvent evento){
-		System.out.println("chamou o metodo");
+		
+		try {
+			UploadedFile arquivoUpload = evento.getFile();
+			Path temp = Files.createTempFile(null, null);
+			Files.copy(arquivoUpload.getInputstream(), temp, StandardCopyOption.values());
+			produto.setCaminho(temp.toString());
+			Messages.addGlobalInfo(produto.getCaminho());
+		} catch (IOException e) {
+			Messages.addGlobalInfo("Ocorreu um erro ao tentar criar o arquivo temporario");
+		}
+		
 	}
 
 }
