@@ -3,11 +3,13 @@ package br.com.drogaria.bean;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.sound.midi.Patch;
 
@@ -22,11 +24,12 @@ import br.com.drogaria.domain.Fabricante;
 import br.com.drogaria.domain.Produto;
 
 @ManagedBean
+@ViewScoped
 public class ProdutoBean {
 
 	private List<Fabricante> fabricantes;
 	private List<Produto> produtos;
-	private Produto produto;
+	private Produto produto = new Produto();
 
 	@PostConstruct
 	public void init() {
@@ -79,12 +82,17 @@ public class ProdutoBean {
 	public void salvar() {
 		try {
 			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.merge(produto);
+			Produto produtoRetorno = (Produto) produtoDAO.merge(produto);
+			Path origem = Paths.get(produto.getCaminho());
+			Path destino = Paths.get("D:/Programacao web com java/uploads/"+produtoRetorno.getCodigo()+".jpg");
+			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+			
+			
 			this.listarProdutos();
 
 			Messages.addGlobalInfo("Produto salvo com sucesso!!!");
 
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | IOException e) {
 			Messages.addError(null, "Aconteceu erro ao tentar salvar", null);
 			e.printStackTrace();
 		}
@@ -107,7 +115,7 @@ public class ProdutoBean {
 		try {
 			UploadedFile arquivoUpload = evento.getFile();
 			Path temp = Files.createTempFile(null, null);
-			Files.copy(arquivoUpload.getInputstream(), temp, StandardCopyOption.values());
+			Files.copy(arquivoUpload.getInputstream(), temp, StandardCopyOption.REPLACE_EXISTING);
 			produto.setCaminho(temp.toString());
 			Messages.addGlobalInfo(produto.getCaminho());
 		} catch (IOException e) {
