@@ -42,7 +42,14 @@
 				</p:column>
 
 				<p:column headerText="Opções:">
-					<p:button icon="ui-icon-trash" />
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{produtoBean.excluir}"
+						update=":msg :fr_produtos:pn_produtos">
+						<p:confirm header="Confirmação"
+							message="Deseja excluir o produto?" icon="ui-icon-alert" />
+						<f:attribute name="produtoSelecionado" value="#{produto}" />
+					</p:commandButton>
+
 					<p:commandButton icon="ui-icon-pencil"
 						actionListener="#{produtoBean.editar}"
 						oncomplete="PF('dialogo').show();" update="fr_produto">
@@ -54,6 +61,13 @@
 
 
 			</p:dataTable>
+
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</p:panel>
 	</h:form>
 
@@ -99,11 +113,11 @@
 						itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}" />
 				</p:selectOneMenu>
 
-				
-					<p:outputLabel value="Foto:" for="foto" />
-					<p:fileUpload id="foto" mode="advanced"
-						fileUploadListener="#{produtoBean.upload}" update=":msg" />
-				
+
+				<p:outputLabel value="Foto:" for="foto" />
+				<p:fileUpload id="foto" mode="advanced"
+					fileUploadListener="#{produtoBean.upload}" update=":msg" />
+
 				<p:commandButton value="Salvar"
 					actionListener="#{produtoBean.salvar}"
 					update=":fr_produto :msg :fr_produtos:dt_produtos" />

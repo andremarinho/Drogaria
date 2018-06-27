@@ -81,13 +81,18 @@ public class ProdutoBean {
 
 	public void salvar() {
 		try {
+			
+			if(produto.getCaminho() == null){
+				Messages.addGlobalInfo("É obrigatorio carregar a foto");
+				return ;
+			}
+			
 			ProdutoDAO produtoDAO = new ProdutoDAO();
 			Produto produtoRetorno = (Produto) produtoDAO.merge(produto);
 			Path origem = Paths.get(produto.getCaminho());
-			Path destino = Paths.get("D:/Programacao web com java/uploads/"+produtoRetorno.getCodigo()+".jpg");
+			Path destino = Paths.get("D:/Programacao web com java/uploads/" + produtoRetorno.getCodigo() + ".jpg");
 			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
-			
-			
+
 			this.listarProdutos();
 
 			Messages.addGlobalInfo("Produto salvo com sucesso!!!");
@@ -101,6 +106,7 @@ public class ProdutoBean {
 	public void editar(ActionEvent evento) {
 		try {
 			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
+			produto.setCaminho("D:/Programacao web com java/uploads/" + produto.getCodigo() + ".jpg");
 
 			FabricanteDAO fabricanteDAO = new FabricanteDAO();
 			fabricantes = fabricanteDAO.listar();
@@ -109,9 +115,28 @@ public class ProdutoBean {
 			erro.printStackTrace();
 		}
 	}
-	
-	public void upload(FileUploadEvent evento){
-		
+
+	public void excluir(ActionEvent evento) {
+		try {
+			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
+
+			ProdutoDAO produtoDAO = new ProdutoDAO();
+			produtoDAO.excluir(produto);
+
+			Path arquivo = Paths.get("D:/Programacao web com java/uploads/" + produto.getCodigo() + ".jpg");
+			Files.deleteIfExists(arquivo);
+
+			produtos = produtoDAO.listar();
+
+			Messages.addGlobalInfo("Produto removido com sucesso");
+		} catch (RuntimeException | IOException erro) {
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar remover o produto");
+			erro.printStackTrace();
+		}
+	}
+
+	public void upload(FileUploadEvent evento) {
+
 		try {
 			UploadedFile arquivoUpload = evento.getFile();
 			Path temp = Files.createTempFile(null, null);
@@ -121,7 +146,7 @@ public class ProdutoBean {
 		} catch (IOException e) {
 			Messages.addGlobalInfo("Ocorreu um erro ao tentar criar o arquivo temporario");
 		}
-		
+
 	}
 
 }
